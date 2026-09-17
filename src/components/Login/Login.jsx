@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { login } from "../../utils/MainApi";
 
-function Login({ onLogin }) {
+function Login({ onLogin, onError, onSwitchToRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,7 +37,16 @@ function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (emailError || passwordError || !email || !password) return;
-    alert("Iniciando sesión... (Aquí irá la conexión al backend)");
+
+    setIsLoading(true);
+    login(email, password)
+      .then((data) => {
+        onLogin(data.token);
+      })
+      .catch((err) => {
+        onError(err.message);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const isFormValid = !emailError && !passwordError && email && password;
@@ -72,6 +83,7 @@ function Login({ onLogin }) {
           href="#"
           onClick={(e) => {
             e.preventDefault();
+            onSwitchToRegister();
           }}
         >
           Regístrate

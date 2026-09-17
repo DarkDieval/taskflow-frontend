@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { register } from "../../utils/MainApi";
 
-function Register({ onRegister }) {
+function Register({ onRegister, onError, onSwitchToLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +59,16 @@ function Register({ onRegister }) {
       !name
     )
       return;
-    alert("Registrando usuario... (Aquí irá la conexión al backend)");
+
+    setIsLoading(true);
+    register(email, password, name)
+      .then(() => {
+        onRegister(email, password);
+      })
+      .catch((err) => {
+        onError(err.message);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const isFormValid =
@@ -107,6 +118,7 @@ function Register({ onRegister }) {
           href="#"
           onClick={(e) => {
             e.preventDefault();
+            onSwitchToLogin();
           }}
         >
           Inicia sesión
