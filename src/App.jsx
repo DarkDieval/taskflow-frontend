@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import "./index.css";
 import Header from "./components/Header/Header";
 import ModalWithForm from "./components/ModalWithForm/ModalWithForm";
 import Login from "./components/Login/Login";
@@ -6,6 +7,7 @@ import Register from "./components/Register/Register";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
 import CurrentUserContext from "./contexts/CurrentUserContext";
+import heroImage from "./assets/hero.png";
 import {
   login,
   getCurrentUser,
@@ -22,6 +24,7 @@ function App() {
   const [authError, setAuthError] = useState("");
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [toast, setToast] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -61,6 +64,8 @@ function App() {
     getCurrentUser(token)
       .then((user) => {
         setCurrentUser(user);
+        setToast(`¡Bienvenido, ${user.name}! 👋`);
+        setTimeout(() => setToast(""), 3000);
         return getTasks(token);
       })
       .then((tasksData) => {
@@ -121,11 +126,12 @@ function App() {
   return (
     <CurrentUserContext.Provider value={{ currentUser, handleSignOut }}>
       <div className="app">
+        {toast && <div className="toast">{toast}</div>}
         <Header onLogin={handleLoginClick} onRegister={handleRegisterClick} />
 
         <main className="app__content">
           {isLoading ? (
-            <p>Cargando...</p>
+            <p className="app__loading">Cargando...</p>
           ) : currentUser ? (
             <>
               <h2>Hola, {currentUser.name} 👋</h2>
@@ -137,10 +143,34 @@ function App() {
               />
             </>
           ) : (
-            <>
-              <h2>Bienvenido a TaskFlow</h2>
-              <p>Inicia sesión para ver y gestionar tus tareas.</p>
-            </>
+            <section className="hero">
+              <div className="hero__text">
+                <h2 className="hero__title">Organiza tu día con TaskFlow</h2>
+                <p className="hero__subtitle">
+                  Crea, ordena y completa tus tareas desde cualquier lugar.
+                  Simple, rápido y solo tuyo.
+                </p>
+                <div className="hero__actions">
+                  <button
+                    className="hero__cta hero__cta_primary"
+                    onClick={handleRegisterClick}
+                  >
+                    Crear cuenta gratis
+                  </button>
+                  <button
+                    className="hero__cta hero__cta_secondary"
+                    onClick={handleLoginClick}
+                  >
+                    Ya tengo cuenta
+                  </button>
+                </div>
+              </div>
+              <img
+                src={heroImage}
+                alt="Vista previa de la aplicación TaskFlow"
+                className="hero__image"
+              />
+            </section>
           )}
         </main>
 

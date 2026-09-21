@@ -3,6 +3,9 @@
   border-bottom: 1px solid #e5e7eb;
   padding: 16px 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .header__container {
@@ -12,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
 }
 
 .header__logo {
@@ -19,23 +23,39 @@
   font-weight: 700;
   color: #1f2937;
   margin: 0;
+  letter-spacing: -0.5px;
 }
 
 .header__nav {
   display: flex;
-  gap: 16px;
+  gap: 12px;
+  align-items: center;
+}
+
+.header__username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background-color: #f3f4f6;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .header__button {
-  padding: 8px 20px;
+  padding: 10px 20px;
   border: none;
   border-radius: 8px;
   background-color: transparent;
   color: #1f2937;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .header__button:hover {
@@ -44,9 +64,35 @@
 
 .header__button_type_login {
   background-color: #3b82f6;
-  color: white;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .header__button_type_login:hover {
   background-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+.header__button_type_logout {
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+  background-color: #ffffff;
+}
+
+.header__button_type_logout:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background-color: #fef2f2;
+}
+
+@media screen and (max-width: 520px) {
+  .header__username {
+    display: none;
+  }
+
+  .header__button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
 }

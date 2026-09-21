@@ -1,54 +1,106 @@
+@keyframes taskSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .task-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 16px 20px;
+  padding: 18px 22px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  transition: all 0.2s;
+  border-radius: 14px;
+  border-left: 4px solid #3b82f6;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  animation: taskSlideIn 0.3s ease-out;
 }
 
 .task-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
 }
 
 .task-card_completed {
   background-color: #f9fafb;
-  opacity: 0.7;
+  border-left-color: #10b981;
+  opacity: 0.75;
+}
+
+.task-card_completed:hover {
+  opacity: 0.9;
 }
 
 .task-card_completed .task-card__title {
   text-decoration: line-through;
-  color: #6b7280;
+  color: #9ca3af;
 }
 
 .task-card__checkbox-label {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
   cursor: pointer;
 }
 
 .task-card__checkbox {
-  width: 20px;
-  height: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
   cursor: pointer;
-  margin-top: 2px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.15s ease;
+  background-color: #ffffff;
+}
+
+.task-card__checkbox:hover {
+  border-color: #3b82f6;
+}
+
+.task-card__checkbox:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.task-card__checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .task-card__content {
   flex: 1;
+  min-width: 0;
 }
 
 .task-card__title {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: #1f2937;
   margin: 0;
   word-break: break-word;
+  transition: color 0.2s;
 }
 
 .task-card__description {
@@ -56,6 +108,7 @@
   color: #6b7280;
   margin: 4px 0 0;
   word-break: break-word;
+  line-height: 1.4;
 }
 
 .task-card__delete {
@@ -63,11 +116,19 @@
   border: none;
   font-size: 18px;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition:
+    background-color 0.2s,
+    transform 0.15s;
+  flex-shrink: 0;
 }
 
 .task-card__delete:hover {
   background-color: #fee2e2;
+  transform: scale(1.1);
+}
+
+.task-card__delete:active {
+  transform: scale(0.95);
 }

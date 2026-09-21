@@ -4,9 +4,16 @@
   margin-bottom: 32px;
   flex-wrap: wrap;
   padding: 20px;
-  background-color: #f9fafb;
-  border-radius: 12px;
+  background-color: #ffffff;
+  border-radius: 16px;
   border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s;
+}
+
+.task-form:focus-within {
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.12);
+  border-color: #dbeafe;
 }
 
 .task-form__input {
@@ -14,10 +21,18 @@
   min-width: 200px;
   padding: 12px 16px;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 15px;
   font-family: inherit;
-  transition: border-color 0.2s;
+  color: #1f2937;
+  background-color: #ffffff;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.task-form__input::placeholder {
+  color: #9ca3af;
 }
 
 .task-form__input:focus {
@@ -33,21 +48,24 @@
 .task-form__button {
   padding: 12px 24px;
   background-color: #3b82f6;
-  color: white;
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .task-form__button:hover:not(:disabled) {
   background-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+  transform: translateY(-1px);
 }
 
 .task-form__button:disabled {
-  background-color: #9ca3af;
+  background-color: #cbd5e1;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.7;
 }

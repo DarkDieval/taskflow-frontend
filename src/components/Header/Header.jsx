@@ -13,7 +13,10 @@ function Header({ onLogin, onRegister }) {
           {currentUser ? (
             <>
               <span className="header__username">Hola, {currentUser.name}</span>
-              <button className="header__button" onClick={handleSignOut}>
+              <button
+                className="header__button header__button_type_logout"
+                onClick={handleSignOut}
+              >
                 Cerrar sesión
               </button>
             </>
