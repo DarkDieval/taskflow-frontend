@@ -7,7 +7,15 @@ Aplicación full stack de gestión de tareas. Los usuarios pueden registrarse, i
 - **Aplicación:** [https://sparkly-alpaca-e58384.netlify.app/](https://sparkly-alpaca-e58384.netlify.app/)
 - **API Backend:** [https://taskflow-backend-tpgr.onrender.com](https://taskflow-backend-tpgr.onrender.com)
 
-> **Nota:** Para probar la app, primero regístrate con un email y contraseña. Cada usuario ve solo sus propias tareas.
+### 🚀 Cómo probar el demo
+
+1. Abre la URL: [https://sparkly-alpaca-e58384.netlify.app/](https://sparkly-alpaca-e58384.netlify.app/)
+2. Haz clic en **"Registrarse"** y crea una cuenta con tu email y una contraseña (mínimo 6 caracteres).
+3. Inicia sesión y empieza a crear tus tareas.
+
+> **Nota:** Cada usuario ve **solo sus propias tareas**. Los datos se guardan en una base de datos MongoDB Atlas en la nube.
+>
+> **Nota técnica:** El backend gratuito de Render "duerme" tras 15 minutos sin uso. El primer request puede tardar ~50 segundos en despertar. Los siguientes son rápidos.
 
 ## 🚀 Tecnologías
 
@@ -19,6 +27,7 @@ Aplicación full stack de gestión de tareas. Los usuarios pueden registrarse, i
 - **ESLint + Airbnb** (calidad de código)
 
 ## 📁 Estructura del proyecto
+
 src/
 ├── components/ (Header, ModalWithForm, Login, Register, TaskForm, TaskCard, TaskList)
 ├── contexts/ (CurrentUserContext)
@@ -32,7 +41,8 @@ text
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/DarkDieval/taskflow-frontend.git
-Instala dependencias (usa --legacy-peer-deps por conflicto de ESLint):
+   Instala dependencias (usa --legacy-peer-deps por conflicto de ESLint):
+   ```
 
 bash
 npm install --legacy-peer-deps
