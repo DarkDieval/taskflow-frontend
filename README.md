@@ -1,16 +1,53 @@
-# React + Vite
+# TaskFlow - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación full stack de gestión de tareas. Los usuarios pueden registrarse, iniciar sesión y gestionar sus propias tareas (crear, leer, actualizar y eliminar).
 
-Currently, two official plugins are available:
+## 🔗 Demo en vivo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Aplicación:** [https://sparkly-alpaca-e58384.netlify.app/](https://sparkly-alpaca-e58384.netlify.app/)
+- **API Backend:** [https://taskflow-backend-tpgr.onrender.com](https://taskflow-backend-tpgr.onrender.com)
 
-## React Compiler
+> **Nota:** Para probar la app, primero regístrate con un email y contraseña. Cada usuario ve solo sus propias tareas.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tecnologías
 
-## Expanding the ESLint configuration
+- **React 19** + **Vite**
+- **React Router** (navegación)
+- **Context API** (estado global del usuario)
+- **JWT** (autenticación con `localStorage`)
+- **CSS con BEM** (convención de nombres)
+- **ESLint + Airbnb** (calidad de código)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📁 Estructura del proyecto
+src/
+├── components/ (Header, ModalWithForm, Login, Register, TaskForm, TaskCard, TaskList)
+├── contexts/ (CurrentUserContext)
+├── utils/ (MainApi.js - llamadas al backend)
+└── App.jsx (componente raíz)
+
+text
+
+## 🛠️ Instalación local
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/DarkDieval/taskflow-frontend.git
+Instala dependencias (usa --legacy-peer-deps por conflicto de ESLint):
+
+bash
+npm install --legacy-peer-deps
+Arranca el servidor de desarrollo:
+
+bash
+npm run dev
+Abre http://localhost:5173
+
+🔐 Seguridad aplicada
+JWT almacenado en localStorage y validado contra el servidor.
+
+Rutas protegidas: la app solo muestra tareas a usuarios autenticados.
+
+Aislamiento entre usuarios: el backend verifica el owner antes de modificar/eliminar.
+
+👤 Autor
+Diego Valencia (@DarkDieval)
