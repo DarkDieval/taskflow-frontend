@@ -2,7 +2,14 @@ import React from "react";
 import TaskCard from "../TaskCard/TaskCard";
 import "./TaskList.css";
 
-function TaskList({ tasks, onToggle, onDelete }) {
+function TaskList({
+  tasks,
+  onToggle,
+  onDelete,
+  onEdit,
+  selectedIds,
+  onSelectToggle,
+}) {
   if (tasks.length === 0) {
     return (
       <p className="task-list__empty">
@@ -19,6 +26,9 @@ function TaskList({ tasks, onToggle, onDelete }) {
           task={task}
           onToggle={onToggle}
           onDelete={onDelete}
+          onEdit={onEdit}
+          isSelected={selectedIds.includes(task._id)}
+          onSelectToggle={onSelectToggle}
         />
       ))}
     </ul>

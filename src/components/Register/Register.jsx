@@ -126,11 +126,11 @@ function Register({ onRegister, onError, onSwitchToLogin }) {
       </p>
       <button
         type="submit"
-        className={`modal__submit-button ${!isFormValid ? "modal__submit-button_disabled" : ""}`}
-        disabled={!isFormValid}
+        className={`modal__submit-button ${!isFormValid || isLoading ? "modal__submit-button_disabled" : ""}`}
+        disabled={!isFormValid || isLoading}
         onClick={handleSubmit}
       >
-        Registrarse
+        {isLoading ? "Registrando..." : "Registrarse"}
       </button>
     </>
   );

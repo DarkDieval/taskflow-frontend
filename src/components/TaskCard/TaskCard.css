@@ -12,7 +12,6 @@
 .task-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
   padding: 18px 22px;
   background-color: #ffffff;
@@ -28,6 +27,12 @@
 .task-card:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
   transform: translateY(-2px);
+}
+
+.task-card_selected {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .task-card_completed {
@@ -51,6 +56,7 @@
   gap: 14px;
   flex: 1;
   cursor: pointer;
+  min-width: 0;
 }
 
 .task-card__checkbox {
@@ -111,6 +117,62 @@
   line-height: 1.4;
 }
 
+.task-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.task-card__select-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+}
+
+.task-card__select-label:hover {
+  background-color: #f3f4f6;
+}
+
+.task-card__select-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.task-card__select-checkbox:hover {
+  border-color: #6b7280;
+}
+
+.task-card__select-checkbox:checked {
+  background-color: #6b7280;
+  border-color: #6b7280;
+}
+
+.task-card__select-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.task-card__edit,
 .task-card__delete {
   background: none;
   border: none;
@@ -121,7 +183,11 @@
   transition:
     background-color 0.2s,
     transform 0.15s;
-  flex-shrink: 0;
+}
+
+.task-card__edit:hover {
+  background-color: #dbeafe;
+  transform: scale(1.1);
 }
 
 .task-card__delete:hover {
@@ -129,6 +195,36 @@
   transform: scale(1.1);
 }
 
+.task-card__edit:active,
 .task-card__delete:active {
   transform: scale(0.95);
+}
+
+.task-card__due {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  background-color: #f3f4f6;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-top: 8px;
+  white-space: nowrap;
+}
+
+.task-card__due_today {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.task-card__due_tomorrow {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.task-card__due_overdue {
+  background-color: #fee2e2;
+  color: #991b1b;
 }

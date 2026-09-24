@@ -6,6 +6,8 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
+import TaskEditForm from "./components/TaskEditForm/TaskEditForm";
+import SelectionToolbar from "./components/SelectionToolbar/SelectionToolbar";
 import CurrentUserContext from "./contexts/CurrentUserContext";
 import heroImage from "./assets/hero.png";
 import {
@@ -15,16 +17,27 @@ import {
   createTask,
   updateTask,
   deleteTask,
+  deleteManyTasks,
 } from "./utils/MainApi";
+import CalendarView from "./components/CalendarView/CalendarView";
 
 function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [authError, setAuthError] = useState("");
   const [tasks, setTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState("");
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [viewMode, setViewMode] = useState("list");
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 3000);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -56,6 +69,8 @@ function App() {
   const closeModals = () => {
     setIsLoginModalOpen(false);
     setIsRegisterModalOpen(false);
+    setIsEditModalOpen(false);
+    setTaskToEdit(null);
     setAuthError("");
   };
 
@@ -64,8 +79,7 @@ function App() {
     getCurrentUser(token)
       .then((user) => {
         setCurrentUser(user);
-        setToast(`¡Bienvenido, ${user.name}! 👋`);
-        setTimeout(() => setToast(""), 3000);
+        showToast(`¡Bienvenido, ${user.name}! 👋`);
         return getTasks(token);
       })
       .then((tasksData) => {
@@ -85,13 +99,16 @@ function App() {
     localStorage.removeItem("token");
     setCurrentUser(null);
     setTasks([]);
+    setSelectedIds([]);
   };
 
-  // CRUD de tareas
   const handleCreateTask = (taskData) => {
     const token = localStorage.getItem("token");
     createTask(token, taskData)
-      .then((newTask) => setTasks([newTask, ...tasks]))
+      .then((newTask) => {
+        setTasks([newTask, ...tasks]);
+        showToast("Tarea creada ✨");
+      })
       .catch((err) => console.error(err));
   };
 
@@ -107,7 +124,52 @@ function App() {
   const handleDeleteTask = (taskId) => {
     const token = localStorage.getItem("token");
     deleteTask(token, taskId)
-      .then(() => setTasks(tasks.filter((t) => t._id !== taskId)))
+      .then(() => {
+        setTasks(tasks.filter((t) => t._id !== taskId));
+        setSelectedIds(selectedIds.filter((id) => id !== taskId));
+        showToast("Tarea eliminada 🗑️");
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleEditClick = (task) => {
+    setTaskToEdit(task);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = (taskId, taskData) => {
+    const token = localStorage.getItem("token");
+    updateTask(token, taskId, taskData)
+      .then((updated) => {
+        setTasks(tasks.map((t) => (t._id === taskId ? updated : t)));
+        closeModals();
+        showToast("Tarea actualizada ✏️");
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleSelectToggle = (taskId) => {
+    setSelectedIds((prev) =>
+      prev.includes(taskId)
+        ? prev.filter((id) => id !== taskId)
+        : [...prev, taskId],
+    );
+  };
+
+  const handleClearSelection = () => {
+    setSelectedIds([]);
+  };
+
+  const handleDeleteSelected = () => {
+    if (selectedIds.length === 0) return;
+    const token = localStorage.getItem("token");
+
+    deleteManyTasks(token, selectedIds)
+      .then((data) => {
+        setTasks(tasks.filter((t) => !selectedIds.includes(t._id)));
+        showToast(`${data.deletedCount} tarea(s) eliminada(s) 🗑️`);
+        setSelectedIds([]);
+      })
       .catch((err) => console.error(err));
   };
 
@@ -136,11 +198,36 @@ function App() {
             <>
               <h2>Hola, {currentUser.name} 👋</h2>
               <TaskForm onCreateTask={handleCreateTask} />
-              <TaskList
-                tasks={tasks}
-                onToggle={handleToggleTask}
-                onDelete={handleDeleteTask}
-              />
+              <div className="view-toggle">
+                <button
+                  className={`view-toggle__button ${
+                    viewMode === "list" ? "view-toggle__button_active" : ""
+                  }`}
+                  onClick={() => setViewMode("list")}
+                >
+                  📋 Lista
+                </button>
+                <button
+                  className={`view-toggle__button ${
+                    viewMode === "calendar" ? "view-toggle__button_active" : ""
+                  }`}
+                  onClick={() => setViewMode("calendar")}
+                >
+                  📅 Calendario
+                </button>
+              </div>
+              {viewMode === "list" ? (
+                <TaskList
+                  tasks={tasks}
+                  onToggle={handleToggleTask}
+                  onDelete={handleDeleteTask}
+                  onEdit={handleEditClick}
+                  selectedIds={selectedIds}
+                  onSelectToggle={handleSelectToggle}
+                />
+              ) : (
+                <CalendarView tasks={tasks} />
+              )}
             </>
           ) : (
             <section className="hero">
@@ -199,6 +286,22 @@ function App() {
           />
           {authError && <p className="modal__error">{authError}</p>}
         </ModalWithForm>
+
+        <ModalWithForm
+          isOpen={isEditModalOpen}
+          onClose={closeModals}
+          title="Editar tarea"
+        >
+          {taskToEdit && (
+            <TaskEditForm task={taskToEdit} onSave={handleSaveEdit} />
+          )}
+        </ModalWithForm>
+
+        <SelectionToolbar
+          count={selectedIds.length}
+          onClear={handleClearSelection}
+          onDeleteSelected={handleDeleteSelected}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

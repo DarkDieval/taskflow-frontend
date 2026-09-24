@@ -69,3 +69,20 @@
   cursor: not-allowed;
   opacity: 0.7;
 }
+
+.task-form__input_type_date {
+  flex: 0 0 auto;
+  min-width: 160px;
+  color: #1f2937;
+  cursor: pointer;
+}
+
+.task-form__input_type_date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.task-form__input_type_date::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}

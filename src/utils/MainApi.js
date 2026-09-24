@@ -67,3 +67,14 @@ export const deleteTask = (token, taskId) => {
     headers: { Authorization: `Bearer ${token}` },
   }).then(handleResponse);
 };
+
+export const deleteManyTasks = (token, taskIds) => {
+  return fetch(`${BASE_URL}/api/tasks`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ taskIds }),
+  }).then(handleResponse);
+};

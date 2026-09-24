@@ -146,6 +146,38 @@ button {
   border-radius: 16px;
 }
 
+.view-toggle {
+  display: inline-flex;
+  background-color: #f3f4f6;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  gap: 4px;
+}
+
+.view-toggle__button {
+  padding: 8px 18px;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.view-toggle__button:hover {
+  color: #1f2937;
+}
+
+.view-toggle__button_active {
+  background-color: #ffffff;
+  color: #3b82f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
 @keyframes toastSlideDown {
   from {
     opacity: 0;
