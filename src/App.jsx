@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
 import Header from "./components/Header/Header";
 import ModalWithForm from "./components/ModalWithForm/ModalWithForm";
@@ -29,7 +29,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [authError, setAuthError] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(
+    () => !!localStorage.getItem("token"),
+  );
   const [toast, setToast] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [viewMode, setViewMode] = useState("list");
@@ -42,7 +44,6 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setIsLoading(true);
       getCurrentUser(token)
         .then((user) => {
           setCurrentUser(user);

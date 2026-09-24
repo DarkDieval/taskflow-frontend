@@ -123,12 +123,12 @@ function CalendarView({ tasks }) {
       </div>
 
       <div className="calendar__grid">
-        {allDays.map((day, index) => {
+        {allDays.map((day) => {
           const dayTasks = !day.isOtherMonth ? tasksByDay[day.day] || [] : [];
 
           return (
             <div
-              key={index}
+              key={`${year}-${month}-${day.isOtherMonth ? "o" : "c"}-${day.day}`}
               className={`calendar__day ${
                 day.isOtherMonth ? "calendar__day_other-month" : ""
               } ${isToday(day) ? "calendar__day_today" : ""} ${
