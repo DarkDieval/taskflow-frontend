@@ -6,7 +6,9 @@
 
 - **Autenticación:** registro, inicio de sesión y cierre de sesión con JWT.
 - **CRUD completo de tareas:** crear, leer, editar y eliminar.
-- **Edición individual:** modal con formulario para modificar título, descripción y estado.
+- **Fechas de vencimiento:** asigna una fecha límite a cada tarea con indicadores visuales (Hoy / Mañana / Vencida).
+- **Vista de calendario:** alterna entre vista de lista y calendario mensual donde las tareas aparecen en su día.
+- **Edición individual:** modal con formulario para modificar título, descripción, fecha y estado.
 - **Selección múltiple:** marca varias tareas con un clic.
 - **Eliminación masiva:** borra todas las tareas seleccionadas con un solo botón.
 - **Marcar como completada:** con checkbox personalizado en cada tarea.
@@ -30,7 +32,7 @@
 2. Una vez logueado, abre la URL del demo: https://sparkly-alpaca-e58384.netlify.app/
 3. Verás la aplicación. Haz clic en **"Crear cuenta gratis"** y regístrate.
 4. Inicia sesión y empieza a crear tareas.
-5. Prueba **editar** (✏️), **completar** (✓) y **seleccionar varias tareas** para eliminarlas en masa.
+5. Prueba el toggle **📋 Lista / 📅 Calendario**, edita (✏️), completa (✓) y selecciona varias tareas para eliminarlas en masa.
 
 > 📝 **Nota:** cada usuario ve **solo sus propias tareas**. Los datos se guardan en MongoDB Atlas.
 >
@@ -43,43 +45,39 @@
 - **JWT** (autenticación con `localStorage`)
 - **CSS con BEM** (convención de nombres)
 - **Google Fonts** (Inter)
-- **ESLint + Airbnb** (calidad de código)
+- **ESLint 9** (flat config + plugin React)
 
 ## 📁 Estructura del proyecto
 
-src/
-components/
-Header/ Encabezado con dos estados
-Login/ Formulario de inicio de sesión
-Register/ Formulario de registro
-ModalWithForm/ Modal reutilizable
-TaskForm/ Crear tarea
-TaskCard/ Tarjeta individual
-TaskList/ Lista de tareas
-TaskEditForm/ Editar tarea
-SelectionToolbar/ Toolbar flotante para eliminar múltiples
-contexts/ CurrentUserContext
-utils/ MainApi.js (llamadas al backend)
-App.jsx Componente raíz
-
-text
+    src/
+      components/
+        Header/              Encabezado con dos estados
+        Login/               Formulario de inicio de sesión
+        Register/            Formulario de registro
+        ModalWithForm/       Modal reutilizable
+        TaskForm/            Crear tarea (con fecha opcional)
+        TaskCard/            Tarjeta individual con fecha
+        TaskList/            Lista de tareas
+        TaskEditForm/        Editar tarea (incluye fecha)
+        SelectionToolbar/    Toolbar flotante para eliminar múltiples
+        CalendarView/        Calendario mensual con tareas
+      contexts/              CurrentUserContext
+      utils/                 MainApi.js (llamadas al backend)
+      App.jsx                Componente raíz
 
 ## 🧑‍💻 Instalación local
 
 1. Clona el repositorio:
+
    git clone https://github.com/DarkDieval/taskflow-frontend.git
 
-text
+2. Instala dependencias:
 
-2. Instala dependencias (usa `--legacy-peer-deps` por conflicto con ESLint):
-   npm install --legacy-peer-deps
-
-text
+   npm install
 
 3. Arranca el servidor de desarrollo:
-   npm run dev
 
-text
+   npm run dev
 
 4. Abre `http://localhost:5173`
 
