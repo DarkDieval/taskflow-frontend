@@ -63,10 +63,13 @@ function CalendarView({ tasks }) {
   tasks.forEach((task) => {
     if (!task.dueDate) return;
     const due = new Date(task.dueDate);
-    if (due.getFullYear() === year && due.getMonth() === month) {
-      const day = due.getDate();
-      if (!tasksByDay[day]) tasksByDay[day] = [];
-      tasksByDay[day].push(task);
+    const dueYear = due.getUTCFullYear();
+    const dueMonth = due.getUTCMonth();
+    const dueDay = due.getUTCDate();
+
+    if (dueYear === year && dueMonth === month) {
+      if (!tasksByDay[dueDay]) tasksByDay[dueDay] = [];
+      tasksByDay[dueDay].push(task);
     }
   });
 
